@@ -1,0 +1,15 @@
+{
+  "name": "ecomarket-engine",
+  "version": "1.0.0",
+  "description": "Welcome to the **EcoMarket Engine** repository! This project aims to create a scalable, efficient e-commerce platform with advanced features like AI-driven recommendations, fraud detection, and international commerce support.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

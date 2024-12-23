@@ -1,0 +1,64 @@
+# Compiled output
+/build/
+/dist/
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Environment variables
+.env
+
+# macOS
+.DS_Store
+
+# IDEs and editors
+.vscode/
+.vs/
+.idea/
+
+# Visual Studio specific
+*.sln.docstates
+.vs/
+
+# Logs
+logs
+*.log
+
+# Test coverage
+coverage/
+
+# Dependency directories
+jspm_packages/
+
+# IDEs
+/.idea/
+/.vscode/
+
+# TypeScript
+*.tsbuildinfo
+
+# Miscellaneous
+npm-lock.json
+yarn.lock
+
+# Temporary files
+*.tmp
+*.bak
+
+# Generated files
+*.map
+
+# React-specific
+.prettierrc.js
+
+# OS generated files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Other
+# You might want to add specific files or patterns here based on your project's needs
