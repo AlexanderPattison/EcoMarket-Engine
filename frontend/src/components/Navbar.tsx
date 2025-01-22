@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { NavLink, Link } from 'react-router-dom';
+import { useAuth } from '@contexts/AuthContext';
 import './Navbar.css';
 
 const Navbar: React.FC = () => {
     const [isWishlistOpen, setIsWishlistOpen] = useState(false);
     const [isCartOpen, setIsCartOpen] = useState(false);
+    const { user } = useAuth();
 
     const toggleWishlist = () => {
         setIsWishlistOpen(!isWishlistOpen);
@@ -49,8 +51,11 @@ const Navbar: React.FC = () => {
                         )}
                     </div>
 
-                    <NavLink to="/profile" className="nav-button">
-                        <i className="fas fa-user"></i> Profile
+                    <NavLink
+                        to={user ? "/profile" : "/login"}
+                        className="nav-button"
+                    >
+                        <i className="fas fa-user"></i> {user ? "Profile" : "Login"}
                     </NavLink>
                 </div>
             </div>
