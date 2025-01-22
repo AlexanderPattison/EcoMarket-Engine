@@ -1,32 +1,118 @@
 .navbar {
-    background-color: #f8f9fa;
-    padding: 1em;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-}
-
-.navbar-container {
+    background-color: #333; /* Dark grey background */
+    color: white;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
+    padding: 10px 20px;
 }
 
-.navbar-search input {
-    padding: 10px;
-    width: 200px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-
-.navbar-icons {
+.navbar-container {
+    width: 100%;
     display: flex;
-    gap: 20px;
+    justify-content: space-between;
+    align-items: center;
 }
 
-    .navbar-icons svg {
-        font-size: 24px;
-        cursor: pointer;
+.navbar-logo {
+    color: white;
+    text-decoration: none;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+}
+
+.search-input {
+    padding: 5px;
+    border: none;
+    border-radius: 4px 0 0 4px;
+}
+
+.search-button {
+    padding: 5px 10px;
+    background-color: #28a745; /* A more vibrant green */
+    color: white;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+}
+
+.nav-right-section {
+    display: flex;
+    align-items: center;
+}
+
+.wishlist-dropdown, .cart-dropdown {
+    position: relative;
+    margin-right: 15px; /* Added margin to space out from Profile */
+}
+
+.nav-button {
+    color: white;
+    text-decoration: none;
+    background-color: transparent; /* Ensure no background color */
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    /* Remove any default button styling */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    /* Additional resets */
+    box-shadow: none; /* Remove any shadow */
+    outline: none; /* Remove focus outline */
+}
+
+    /* Force the removal of the default button styling */
+    .nav-button::-moz-focus-inner {
+        border: 0;
+        padding: 0;
+    }
+
+    .nav-button:hover {
+        background-color: #555; /* Darker grey on hover for better contrast */
+        box-shadow: none; /* Ensure no shadow on hover */
+        outline: none; /* Ensure no outline on hover */
+    }
+
+.dropdown-content {
+    display: none; /* Hide by default */
+    position: absolute;
+    background-color: #fff; /* White background for dropdown */
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    padding: 12px 16px;
+    top: 100%;
+    right: 0;
+}
+
+.wishlist-dropdown:hover .dropdown-content, .cart-dropdown:hover .dropdown-content {
+    display: block; /* Show on hover */
+}
+
+/* Style dropdown links like buttons with better colors */
+.navbar .nav-right-section .wishlist-dropdown .dropdown-content a,
+.navbar .nav-right-section .cart-dropdown .dropdown-content a {
+    color: #333; /* Dark grey text for better readability */
+    background-color: #f8f9fa; /* Light grey background */
+    text-decoration: none;
+    display: block;
+    padding: 10px 15px; /* Increased padding to match nav-button */
+    margin-bottom: 5px; /* Add space between buttons */
+    border: 1px solid #e9ecef; /* Light border for button look */
+    border-radius: 4px; /* Rounded corners */
+    transition: color 0.3s, background-color 0.3s; /* Add transition for smooth color and background change */
+}
+
+    .navbar .nav-right-section .wishlist-dropdown .dropdown-content a:hover,
+    .navbar .nav-right-section .cart-dropdown .dropdown-content a:hover {
+        color: #28a745; /* Green from search button on hover */
+        background-color: #e9ecef; /* Slightly darker grey background on hover */
     }

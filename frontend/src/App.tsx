@@ -1,26 +1,28 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { UserAuthProvider } from '@contexts/UserAuthContext';
-import Navbar from '@components/Navbar';
-import Login from '@pages/Login';
-import Account from '@pages/Account';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Navbar from './components/Navbar';
 import Home from '@pages/Home';
+import Wishlist from '@pages/Wishlist';
+import Cart from '@pages/Cart';
+import Profile from '@pages/Profile';
+import './App.css';
 
-function App() {
+const App: React.FC = () => {
     return (
-        <UserAuthProvider>
-            <BrowserRouter>
-                <div className="App">
-                    <Navbar />
+        <Router>
+            <div className="App">
+                <Navbar />
+                <main className="main-content">
                     <Routes>
                         <Route path="/" element={<Home />} />
-                        <Route path="/login" element={<Login />} />
-                        <Route path="/account" element={<Account />} />
+                        <Route path="/wishlist" element={<Wishlist />} />
+                        <Route path="/cart" element={<Cart />} />
+                        <Route path="/profile" element={<Profile />} />
                     </Routes>
-                </div>
-            </BrowserRouter>
-        </UserAuthProvider>
+                </main>
+            </div>
+        </Router>
     );
-}
+};
 
 export default App;
