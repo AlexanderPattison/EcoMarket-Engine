@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth, User } from '@contexts/AuthContext';
+import { useAuth } from '@contexts/AuthContext';
+import axios from 'axios';
 import './Signup.css';
 
 const Signup: React.FC = () => {
@@ -11,26 +12,13 @@ const Signup: React.FC = () => {
 
     const handleSignup = async () => {
         try {
-            // Simulate API call for signup
-            const response = await fakeApiSignup(username, password);
-            setUser(response.user);
-            localStorage.setItem('authToken', response.token);
+            const response = await axios.post('/api/signup', { username, password });
+            setUser(response.data.user);
+            localStorage.setItem('authToken', response.data.token);
             navigate('/profile');
         } catch (error) {
             alert('Signup failed. Please try again.');
         }
-    };
-
-    // Fake API function for demonstration
-    const fakeApiSignup = (username: string, password: string) => {
-        return new Promise<{ user: User; token: string }>((resolve) => {
-            setTimeout(() => {
-                resolve({
-                    user: { id: '1', name: username },
-                    token: 'fake-jwt-token'
-                });
-            }, 1000);
-        });
     };
 
     return (

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
 export type User = {
     id: string;
@@ -18,8 +18,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const logout = () => {
         setUser(null);
-        localStorage.removeItem('authToken'); // Assuming you store token here
+        localStorage.removeItem('authToken');
     };
+
+    // Add this function to check for existing session on page load
+    useEffect(() => {
+        const token = localStorage.getItem('authToken');
+        if (token) {
+            // Here you might want to verify the token with the backend
+            setUser({ id: '1', name: 'Existing User' }); // Replace with real user data fetching
+        }
+    }, []);
 
     const value = {
         user,
