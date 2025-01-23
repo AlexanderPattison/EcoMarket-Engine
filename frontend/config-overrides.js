@@ -1,12 +1,13 @@
 const path = require('path');
-const { alias } = require('react-app-rewire-alias');
+const { override, addWebpackAlias } = require('customize-cra');
 
-module.exports = function override(config) {
-    alias({
-        '@components': path.resolve(__dirname, 'src/components'),
-        '@pages': path.resolve(__dirname, 'src/pages'),
-        '@contexts': path.resolve(__dirname, 'src/contexts'),
-    })(config);
+// Define the configuration override function
+const overrideConfig = override(
+  addWebpackAlias({
+    '@components': path.resolve(__dirname, 'src/components'),
+    '@pages': path.resolve(__dirname, 'src/pages'),
+    '@contexts': path.resolve(__dirname, 'src/contexts'),
+  }),
+);
 
-    return config;
-};
+module.exports = overrideConfig;
