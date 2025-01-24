@@ -5,9 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-site-verification" content="W-aJReBlR_zmLTBPwvfMMTf41UeBDt4-tpn0KnjpITY" />
     <title>EcoMarket Engine</title>
+    <style>
+        /* Basic styling for better readability */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0 auto;
+            max-width: 800px;
+            padding: 20px;
+        }
+    </style>
 </head>
 <body>
-    <h1>EcoMarket Engine</h1>
-    <p>Welcome to the EcoMarket Engine repository! This project aims to create a scalable, efficient e-commerce platform with advanced features like AI-driven recommendations, fraud detection, and international commerce support.</p>
+    <div id="readme-content"></div>
+
+    <script>
+        // Function to fetch README.md content
+        function fetchReadme() {
+            // Construct the URL to fetch README.md
+            const readmeUrl = 'https://raw.githubusercontent.com/AlexanderPattison/EcoMarket-Engine/main/README.md';
+            
+            fetch(readmeUrl)
+                .then(response => response.text())
+                .then(markdown => {
+                    // Convert Markdown to HTML
+                    const html = marked(markdown);
+                    document.getElementById('readme-content').innerHTML = html;
+                })
+                .catch(error => console.error('Error fetching README:', error));
+        }
+
+        // Include Marked.js library for Markdown to HTML conversion
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/marked/marked.min.js';
+        script.onload = fetchReadme;
+        document.head.appendChild(script);
+    </script>
 </body>
 </html>
