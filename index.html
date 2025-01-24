@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-site-verification" content="W-aJReBlR_zmLTBPwvfMMTf41UeBDt4-tpn0KnjpITY" />
     <title>EcoMarket Engine</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.1.0/github-markdown.min.css">
     <style>
         /* Basic styling for better readability */
         body {
@@ -14,10 +15,19 @@
             max-width: 800px;
             padding: 20px;
         }
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 45px;
+        }
     </style>
 </head>
 <body>
-    <div id="readme-content"></div>
+    <article class="markdown-body">
+        <div id="readme-content"></div>
+    </article>
 
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script>
@@ -29,7 +39,6 @@
             fetch(readmeUrl)
                 .then(response => response.text())
                 .then(markdown => {
-                    // Check if marked is available
                     if (typeof marked.parse === 'function') {
                         // Convert Markdown to HTML
                         const html = marked.parse(markdown);
@@ -43,7 +52,6 @@
 
         // Call fetchReadme after the script has loaded and the DOM is ready
         document.addEventListener('DOMContentLoaded', () => {
-            // Ensure marked is loaded before calling fetchReadme
             if (window.marked) {
                 fetchReadme();
             } else {
