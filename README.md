@@ -1,5 +1,3 @@
-<!-- Google site verification: <meta name="google-site-verification" content="W-aJReBlR_zmLTBPwvfMMTf41UeBDt4-tpn0KnjpITY" /> -->
-
 # EcoMarket Engine
 
 Welcome to the **EcoMarket Engine** repository! This project aims to create a scalable, efficient e-commerce platform with advanced features like AI-driven recommendations, fraud detection, and international commerce support.
