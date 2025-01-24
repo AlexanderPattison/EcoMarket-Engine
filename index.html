@@ -19,6 +19,7 @@
 <body>
     <div id="readme-content"></div>
 
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script>
         // Function to fetch README.md content
         function fetchReadme() {
@@ -29,17 +30,14 @@
                 .then(response => response.text())
                 .then(markdown => {
                     // Convert Markdown to HTML
-                    const html = marked(markdown);
+                    const html = marked.parse(markdown); // Use marked.parse instead of just marked
                     document.getElementById('readme-content').innerHTML = html;
                 })
                 .catch(error => console.error('Error fetching README:', error));
         }
 
-        // Include Marked.js library for Markdown to HTML conversion
-        const script = document.createElement('script');
-        script.src = 'https://cdn.jsdelivr.net/npm/marked/marked.min.js';
-        script.onload = fetchReadme;
-        document.head.appendChild(script);
+        // Call fetchReadme after the script has loaded
+        document.addEventListener('DOMContentLoaded', fetchReadme);
     </script>
 </body>
 </html>
