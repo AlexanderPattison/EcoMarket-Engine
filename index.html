@@ -29,15 +29,27 @@
             fetch(readmeUrl)
                 .then(response => response.text())
                 .then(markdown => {
-                    // Convert Markdown to HTML
-                    const html = marked.parse(markdown); // Use marked.parse instead of just marked
-                    document.getElementById('readme-content').innerHTML = html;
+                    // Check if marked is available
+                    if (typeof marked.parse === 'function') {
+                        // Convert Markdown to HTML
+                        const html = marked.parse(markdown);
+                        document.getElementById('readme-content').innerHTML = html;
+                    } else {
+                        console.error('Marked library is not loaded correctly');
+                    }
                 })
                 .catch(error => console.error('Error fetching README:', error));
         }
 
-        // Call fetchReadme after the script has loaded
-        document.addEventListener('DOMContentLoaded', fetchReadme);
+        // Call fetchReadme after the script has loaded and the DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            // Ensure marked is loaded before calling fetchReadme
+            if (window.marked) {
+                fetchReadme();
+            } else {
+                console.error('Marked library failed to load');
+            }
+        });
     </script>
 </body>
 </html>
