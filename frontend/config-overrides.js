@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path');
 const { override, addWebpackAlias } = require('customize-cra');
 
@@ -8,6 +9,21 @@ const overrideConfig = override(
     '@pages': path.resolve(__dirname, 'src/pages'),
     '@contexts': path.resolve(__dirname, 'src/contexts'),
   }),
+  function (config, env) {
+    if (env === 'development') {
+      config.devServer = {
+        ...config.devServer,
+        setupMiddlewares: (middlewares, devServer) => {
+          // Custom middleware can be added here if needed
+          if (!devServer) {
+            throw new Error('webpack-dev-server is not defined');
+          }
+          return middlewares;
+        },
+      };
+    }
+    return config;
+  },
 );
 
 module.exports = overrideConfig;
