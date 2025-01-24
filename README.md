@@ -1,6 +1,4 @@
-<!-- Google Verification Tag -->
-<!-- <meta name="google-site-verification" content="W-aJReBlR_zmLTBPwvfMMTf41UeBDt4-tpn0KnjpITY" /> -->
-<!-- End Google Verification Tag -->
+<!-- Google site verification: <meta name="google-site-verification" content="W-aJReBlR_zmLTBPwvfMMTf41UeBDt4-tpn0KnjpITY" /> -->
 
 # EcoMarket Engine
 
