@@ -1,21 +1,29 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import * as bcrypt from 'bcryptjs';
+import { IsString, MinLength, Matches } from 'class-validator';
+
+export enum UserRole {
+    User = 'user',
+    Admin = 'admin',
+    ContentCreator = 'contentCreator'
+}
 
 @Schema()
 export class User extends Document {
-  @Prop({ required: true, unique: true })
-  username: string;
+    @Prop({ required: true, unique: true })
+    @IsString()
+    @MinLength(3)
+    username: string;
 
-  @Prop({ required: true })
-  password: string;
+    @Prop({ required: true })
+    @IsString()
+    @MinLength(8)
+    @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,}$/, { message: 'Password too weak' })
+    password: string;
+
+    @Prop({ required: true, enum: UserRole, default: UserRole.User })
+    role: UserRole;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
-
-UserSchema.pre('save', async function (next) {
-  if (this.isModified('password') && !this.isNew) {
-    this.password = await bcrypt.hash(this.password, 8);
-  }
-  next();
-});
+export type UserDocument = User & Document;

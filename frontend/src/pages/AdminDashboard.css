@@ -1,0 +1,26 @@
+/* AdminDashboard.css */
+.admin-dashboard {
+    padding: 20px;
+}
+
+    .admin-dashboard ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .admin-dashboard li {
+        margin: 10px 0;
+        border: 1px solid #000;
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .admin-dashboard button {
+        margin-left: 10px;
+    }
+
+    .admin-dashboard select, .admin-dashboard button {
+        margin: 10px 0;
+    }

@@ -81,6 +81,10 @@
         outline: none; /* Ensure no outline on hover */
     }
 
+.admin-dashboard-button {
+    margin-left: 15px; /* Add some space from the profile/login link */
+}
+
 .dropdown-content {
     display: none; /* Hide by default */
     position: absolute;
