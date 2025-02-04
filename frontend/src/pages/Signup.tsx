@@ -2,9 +2,9 @@
 import React, { useState, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { setUser } from '../slices/authSlice';
+import { setUser } from '@slices/authSlice';
 import axios from 'axios';
-import { User } from '../types/user';
+import { User } from '@models/user';
 import './Signup.css';
 
 // Define the structure of the signup response

@@ -1,15 +1,11 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { AuthController } from './auth/auth.controller';
-import { AuthService } from './auth/auth.service';
-import { UserSchema } from './auth/user.schema';
-import { AdminController } from './admin/admin.controller';
-import { UserService } from './users/user.service';
-import { JwtModule } from '@nestjs/jwt';
-import { PassportModule } from '@nestjs/passport';
-import { JwtStrategy } from './auth/jwt.strategy';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { UserController } from './users/user.controller';
+import { AuthModule } from '@auth/auth.module';
+import { UserModule } from '@users/user.module';
+import { AdminModule } from '@admin/admin.module';
+import { ProductsModule } from '@products/products.module';
+import { OrdersModule } from '@orders/orders.module';
 
 @Module({
     imports: [
@@ -27,18 +23,13 @@ import { UserController } from './users/user.controller';
             },
             inject: [ConfigService],
         }),
-        MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]),
-        PassportModule.register({ defaultStrategy: 'jwt' }),
-        JwtModule.registerAsync({
-            imports: [ConfigModule],
-            useFactory: async (configService: ConfigService) => ({
-                secret: configService.get<string>('SECRET_KEY'),
-                signOptions: { expiresIn: '1h' },
-            }),
-            inject: [ConfigService],
-        }),
+        AuthModule,
+        UserModule,
+        AdminModule,
+        ProductsModule,
+        OrdersModule,
     ],
-    controllers: [AuthController, AdminController, UserController], // Add UserController to the list
-    providers: [AuthService, UserService, JwtStrategy],
+    controllers: [], // Remove any controllers here if they were previously here
+    providers: [],
 })
 export class AppModule { }

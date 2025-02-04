@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState, logout } from '../store';
-import { User } from '../types/user';
+import { RootState, logout } from '@store';
+import { User } from '@models/user';
 import './Profile.css';
 
 const Profile: React.FC = () => {

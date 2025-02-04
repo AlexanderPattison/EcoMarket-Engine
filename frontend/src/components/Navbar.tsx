@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { RootState } from '../store';
+import { RootState } from '@store';
 import './Navbar.css';
 
 const Navbar: React.FC = () => {

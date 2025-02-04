@@ -3,10 +3,10 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useQuery } from 'react-query';
 import axios from 'axios';
-import { logout } from '../slices/authSlice';
-import { fetchUsersStart, fetchUsersSuccess, fetchUsersFailure, updateUserRole } from '../slices/userSlice';
-import { RootState } from '../store';
-import { User, UserRole } from '../types/user';
+import { logout } from '@slices/authSlice';
+import { fetchUsersStart, fetchUsersSuccess, fetchUsersFailure, updateUserRole } from '@slices/userSlice';
+import { RootState } from '@store';
+import { User, UserRole } from '@models/user';
 import './AdminDashboard.css';
 
 const AdminDashboard = () => {

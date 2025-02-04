@@ -1,10 +1,10 @@
 import { Controller, Get, Post, Body, UseGuards, Param, Put, UnauthorizedException, Request } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { RolesGuard } from '../auth/roles.guard';
-import { Roles } from '../auth/roles.decorator';
-import { AuthService } from '../auth/auth.service';
-import { UserService } from '../users/user.service';
-import { UserRole } from '../auth/user.schema';
+import { RolesGuard } from '@auth/roles.guard';
+import { Roles } from '@auth/roles.decorator';
+import { AuthService } from '@auth/auth.service';
+import { UserService } from '@users/user.service';
+import { UserRole } from '@users/user.schema';
 
 @Controller('admin')
 @UseGuards(AuthGuard('jwt'), RolesGuard)

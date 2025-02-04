@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { setUser } from './slices/authSlice';
+import { setUser } from '@slices/authSlice';
 import axios from 'axios';
 
 const AuthChecker: React.FC = () => {
