@@ -4,6 +4,15 @@ import { IsString, IsNumber } from 'class-validator';
 import { Types } from 'mongoose';
 import { User } from '@users/user.schema';
 
+// Define an enum for order statuses
+export enum OrderStatus {
+    PENDING = 'pending',
+    PROCESSING = 'processing',
+    SHIPPED = 'shipped',
+    DELIVERED = 'delivered',
+    CANCELLED = 'cancelled'
+}
+
 @Schema()
 export class Order extends Document {
     @Prop({ type: Types.ObjectId, ref: 'User', required: true })
@@ -19,6 +28,10 @@ export class Order extends Document {
     @Prop({ default: Date.now })
     @IsString()
     createdAt: Date;
+
+    @Prop({ type: String, enum: OrderStatus, default: OrderStatus.PENDING })
+    @IsString()
+    status: OrderStatus;
 }
 
 export const OrderSchema = SchemaFactory.createForClass(Order);
