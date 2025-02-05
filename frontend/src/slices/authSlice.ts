@@ -1,3 +1,4 @@
+// frontend/src/slices/authSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { User } from '@models/user';
 
@@ -22,6 +23,9 @@ export const authSlice = createSlice({
         logout: (state) => {
             state.user = null;
             state.isAuthenticated = false;
+            // Clear persisted state and token
+            localStorage.removeItem('persist:root');
+            localStorage.removeItem('token');
         },
     },
 });

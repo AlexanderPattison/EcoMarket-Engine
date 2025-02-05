@@ -1,4 +1,5 @@
-import { Controller, Post, Body } from '@nestjs/common';
+// backend/src/auth/auth.controller.ts
+import { Controller, Post, Body, Req, Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignUpDto } from './dto/signup.dto';
 import { LoginDto } from './dto/login.dto';
@@ -15,5 +16,12 @@ export class AuthController {
     @Post('login')
     async login(@Body() loginDto: LoginDto) {
         return this.authService.login(loginDto);
+    }
+
+    @Post('logout')
+    async logout(@Req() req, @Res() res) {
+        // Clear any cookies if you're using them for JWT storage
+        res.clearCookie('jwt');
+        return res.status(200).json({ message: 'Logout successful' });
     }
 }
