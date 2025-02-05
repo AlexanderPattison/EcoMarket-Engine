@@ -1,42 +1,19 @@
 import { Injectable, UnauthorizedException, BadRequestException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { User, UserRole, UserDocument } from '@users/user.schema';
+import { User, UserRole, UserDocument } from '../users/user.schema';
 import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
-
-interface SignupData {
-    username: string;
-    password: string;
-    role?: UserRole;
-}
-
-interface LoginData {
-    username: string;
-    password: string;
-}
+import { SignUpDto } from './dto/signup.dto';
+import { LoginDto } from './dto/login.dto';
 
 @Injectable()
 export class AuthService {
     constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) { }
 
-    async signup(data: SignupData): Promise<{ user: { id: string; username: string; role: UserRole }; token: string }> {
-        const validatePasswordStrength = (password: string): boolean => {
-            const minLength = 8;
-            const hasUpperCase = /[A-Z]/.test(password);
-            const hasLowerCase = /[a-z]/.test(password);
-            const hasNumbers = /\d/.test(password);
-            const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-
-            return password.length >= minLength && hasUpperCase && hasLowerCase && hasNumbers && hasSpecialChar;
-        };
-
-        if (!validatePasswordStrength(data.password)) {
-            throw new BadRequestException('Password does not meet strength requirements. Must contain at least 8 characters, 1 uppercase, 1 lowercase, 1 number, and 1 special character.');
-        }
-
-        const hashedPassword = await bcrypt.hash(data.password, 12);
-        const user = new this.userModel({ username: data.username, password: hashedPassword, role: data.role || UserRole.User });
+    async signup(signupDto: SignUpDto): Promise<{ user: { id: string; username: string; role: UserRole }; token: string }> {
+        const hashedPassword = await bcrypt.hash(signupDto.password, 12);
+        const user = new this.userModel({ username: signupDto.username, password: hashedPassword, role: UserRole.User });
 
         try {
             await user.save();
@@ -50,14 +27,14 @@ export class AuthService {
         }
     }
 
-    async login(data: LoginData): Promise<{ user: { id: string; username: string; role: UserRole }; token: string }> {
+    async login(loginDto: LoginDto): Promise<{ user: { id: string; username: string; role: UserRole }; token: string }> {
         try {
-            const user = await this.userModel.findOne({ username: data.username });
+            const user = await this.userModel.findOne({ username: loginDto.username });
             if (!user) {
                 throw new UnauthorizedException('User not found');
             }
 
-            const isPasswordValid = await bcrypt.compare(data.password, user.password);
+            const isPasswordValid = await bcrypt.compare(loginDto.password, user.password);
             if (!isPasswordValid) {
                 throw new UnauthorizedException('Invalid credentials');
             }
