@@ -1,7 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { store } from '@store';
+import { PersistGate } from 'redux-persist/integration/react';
+import { store, persistor } from './store';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import Navbar from '@components/Navbar';
 import Home from '@pages/Home';
@@ -29,28 +30,30 @@ const AppContent: React.FC = () => {
 
     return (
         <Provider store={store}>
-            <QueryClientProvider client={queryClient}>
-                <Router>
-                    <AuthChecker />
-                    <Navbar />
-                    <Routes>
-                        <Route path="/" element={<Home />} />
-                        <Route path="/wishlist" element={<Wishlist />} />
-                        <Route path="/cart" element={<Cart />} />
-                        <Route path="/profile" element={<Profile />} />
-                        <Route path="/login" element={<Login />} />
-                        <Route path="/signup" element={<Signup />} />
-                        <Route
-                            path="/admin/dashboard"
-                            element={
-                                <AdminRoute>
-                                    <AdminDashboard />
-                                </AdminRoute>
-                            }
-                        />
-                    </Routes>
-                </Router>
-            </QueryClientProvider>
+            <PersistGate loading={null} persistor={persistor}>
+                <QueryClientProvider client={queryClient}>
+                    <Router>
+                        <AuthChecker />
+                        <Navbar />
+                        <Routes>
+                            <Route path="/" element={<Home />} />
+                            <Route path="/wishlist" element={<Wishlist />} />
+                            <Route path="/cart" element={<Cart />} />
+                            <Route path="/profile" element={<Profile />} />
+                            <Route path="/login" element={<Login />} />
+                            <Route path="/signup" element={<Signup />} />
+                            <Route
+                                path="/admin/dashboard"
+                                element={
+                                    <AdminRoute>
+                                        <AdminDashboard />
+                                    </AdminRoute>
+                                }
+                            />
+                        </Routes>
+                    </Router>
+                </QueryClientProvider>
+            </PersistGate>
         </Provider>
     );
 };
