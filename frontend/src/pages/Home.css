@@ -1,15 +1,43 @@
-/* Home.css */
+/* frontend/src/pages/Home.css */
 .home-page {
     text-align: center;
     padding: 50px;
-    background-color: #f0f8ff; /* Light blue background for example */
 }
 
-    .home-page h1 {
-        color: #333;
+.product-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-around;
+}
+
+.product-item {
+    width: 200px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+    .product-item img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
     }
 
-    .home-page p {
-        font-size: 1.2em;
-        color: #666;
+.pagination {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+    .pagination button {
+        margin: 0 10px;
+        padding: 5px 10px;
+        cursor: pointer;
     }
+
+        .pagination button:disabled {
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
