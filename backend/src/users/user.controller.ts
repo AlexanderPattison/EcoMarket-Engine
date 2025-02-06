@@ -1,7 +1,7 @@
 import { Controller, Get, UseGuards, Request, UnauthorizedException } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { UserService } from '@users/user.service';
-import { Request as ExpressRequest } from 'express'; // Assuming you're using Express
+import { Request as ExpressRequest } from 'express';
 
 @Controller('api')
 export class UserController {
