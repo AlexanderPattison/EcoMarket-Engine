@@ -16,7 +16,7 @@ export class OrdersService {
         return this.orderModel.find({ user: userId }).populate('products').exec();
     }
 
-    async findOrderById(id: string): Promise<Order> {
-        return this.orderModel.findById(id).populate('products').exec();
+    async findOrderById(id: string): Promise<Order | null> {
+        return this.orderModel.findById(id).populate('products').exec() as Promise<Order | null>;
     }
 }

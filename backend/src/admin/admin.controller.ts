@@ -5,6 +5,7 @@ import { Roles } from '@auth/roles.decorator';
 import { AuthService } from '@auth/auth.service';
 import { UserService } from '@users/user.service';
 import { UserRole } from '@users/user.schema';
+import { Request as ExpressRequest } from 'express'; // Assuming you're using Express
 
 @Controller('admin')
 @UseGuards(AuthGuard('jwt'), RolesGuard)
@@ -23,16 +24,14 @@ export class AdminController {
 
     @Put('users/:userId/role')
     @Roles(UserRole.Admin)
-    async updateUserRole(@Param('userId') userId: string, @Body('role') role: string, @Request() req) {
-        const isAdmin = await this.authService.isAdmin(req.user.userId);
+    async updateUserRole(@Param('userId') userId: string, @Body('role') role: string, @Request() req: ExpressRequest) {
+        const user = req.user as { userId: string }; // Type assertion
+        if (!user || !user.userId) {
+            throw new UnauthorizedException('User not authenticated');
+        }
+        const isAdmin = await this.authService.isAdmin(user.userId);
         if (!isAdmin) {
             throw new UnauthorizedException('Only admins can change user roles');
-        }
-        try {
-            const updatedUser = await this.userService.updateRole(userId, role);
-            return updatedUser;
-        } catch (error) {
-            throw error;
         }
     }
 }

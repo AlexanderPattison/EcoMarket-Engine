@@ -6,17 +6,18 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true, // Added for better module interoperability
     "target": "ES2021",
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
     "incremental": true,
-    "skipLibCheck": true,
-    "strictNullChecks": false,
-    "noImplicitAny": false,
-    "strictBindCallApply": false,
-    "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false,
+    "skipLibCheck": false, // Changed to false to check all lib types
+    "strictNullChecks": true, // Optional: for stricter null checks
+    "noImplicitAny": true, // Optional: to enforce explicit typing
+    "strictBindCallApply": true, // Optional: for stricter function binding
+    "forceConsistentCasingInFileNames": true, // Optional: for consistent file naming
+    "noFallthroughCasesInSwitch": true, // Optional: to avoid fall-through in switch statements
     "paths": {
       "@auth/*": [ "src/auth/*" ],
       "@users/*": [ "src/users/*" ],

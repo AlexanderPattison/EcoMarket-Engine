@@ -17,8 +17,13 @@ export class AuthService {
 
         try {
             await user.save();
-            const token = jwt.sign({ userId: user._id.toString(), role: user.role }, process.env.SECRET_KEY, { expiresIn: '1h' });
-            return { user: { id: user._id.toString(), username: user.username, role: user.role }, token };
+            const secret = process.env.SECRET_KEY || '';
+            if (user._id) { // Null check
+                const token = jwt.sign({ userId: user._id.toString(), role: user.role }, secret, { expiresIn: '1h' });
+                return { user: { id: user._id.toString(), username: user.username, role: user.role }, token };
+            } else {
+                throw new Error('User ID is null');
+            }
         } catch (error) {
             if (error.code === 11000) {
                 throw new BadRequestException('Username already exists');
@@ -39,8 +44,13 @@ export class AuthService {
                 throw new UnauthorizedException('Invalid credentials');
             }
 
-            const token = jwt.sign({ userId: user._id.toString(), role: user.role }, process.env.SECRET_KEY, { expiresIn: '1h' });
-            return { user: { id: user._id.toString(), username: user.username, role: user.role }, token };
+            const secret = process.env.SECRET_KEY || '';
+            if (user._id) { // Null check
+                const token = jwt.sign({ userId: user._id.toString(), role: user.role }, secret, { expiresIn: '1h' });
+                return { user: { id: user._id.toString(), username: user.username, role: user.role }, token };
+            } else {
+                throw new Error('User ID is null');
+            }
         } catch (error) {
             throw new UnauthorizedException('Login failed');
         }
