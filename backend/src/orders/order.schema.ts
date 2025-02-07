@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { IsString, IsNumber } from 'class-validator';
 import { Types } from 'mongoose';
-import { User } from '@users/user.schema';
+import { User } from '../users/user.schema';
 
 // Define an enum for order statuses
 export enum OrderStatus {

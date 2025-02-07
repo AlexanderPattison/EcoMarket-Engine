@@ -1,6 +1,6 @@
 // backend/src/products/products.controller.ts
 import { Controller, Get, Query } from '@nestjs/common';
-import { ProductsService } from '@products/products.service';
+import { ProductsService } from '../products/products.service';
 
 @Controller('api/products')
 export class ProductsController {
