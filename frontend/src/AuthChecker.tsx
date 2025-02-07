@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '@store';
-import { setUser } from '@slices/authSlice';
+import { useAppDispatch, useAppSelector } from './store';
+import { setUser } from './slices/authSlice';
 import axios from 'axios';
-import { RootState } from '@store';
+import { RootState } from './store';
 
 const AuthChecker: React.FC = () => {
     const dispatch = useAppDispatch();

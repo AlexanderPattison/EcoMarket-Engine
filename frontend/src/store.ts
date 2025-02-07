@@ -2,9 +2,9 @@ import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import { useDispatch, useSelector, TypedUseSelectorHook } from 'react-redux';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import authReducer from '@slices/authSlice';
-import userReducer from '@slices/userSlice';
-import { logout } from '@slices/authSlice';
+import authReducer from './slices/authSlice';
+import userReducer from './slices/userSlice';
+import { logout } from './slices/authSlice';
 
 const authPersistConfig = {
     key: 'auth',

@@ -1,8 +1,8 @@
 import React from 'react';
-import { useAppDispatch, useAppSelector } from '@store';
-import { fetchUsers, updateUserRole } from '@slices/userSlice';
-import { User, UserRole } from '@models/user';
-import { RootState } from '@store';
+import { useAppDispatch, useAppSelector } from '../store';
+import { fetchUsers, updateUserRole } from '../slices/userSlice';
+import { User, UserRole } from '../models/user';
+import { RootState } from '../store';
 import './AdminDashboard.css';
 
 const AdminDashboard: React.FC = () => {

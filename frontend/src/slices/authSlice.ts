@@ -1,6 +1,6 @@
 // frontend/src/slices/authSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { User } from '@models/user';
+import { User } from '../models/user';
 
 interface AuthState {
     user: User | null;

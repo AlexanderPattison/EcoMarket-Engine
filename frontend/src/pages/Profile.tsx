@@ -1,9 +1,8 @@
 // frontend/src/pages/Profile.tsx
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState, logout } from '@store';
+import { RootState, logout } from '../store';
 import axios from 'axios';
-import { User } from '@models/user';
 import { useNavigate } from 'react-router-dom'; // Import this if not already done
 import './Profile.css';
 
