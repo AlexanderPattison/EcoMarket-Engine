@@ -10,7 +10,6 @@
     "target": "ES2021",
     "sourceMap": true,
     "outDir": "./dist",
-    "baseUrl": "./",
     "incremental": true,
     "skipLibCheck": false, // Changed to false to check all lib types
     "strictNullChecks": true, // Optional: for stricter null checks
