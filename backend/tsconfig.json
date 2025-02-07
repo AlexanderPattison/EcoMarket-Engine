@@ -1,21 +1,24 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "outDir": "./dist",
+    "target": "ES2021",
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true, // Added for better module interoperability
-    "target": "ES2021",
+    "esModuleInterop": true,
     "sourceMap": true,
-    "outDir": "./dist",
     "incremental": true,
-    "skipLibCheck": false, // Changed to false to check all lib types
-    "strictNullChecks": true, // Optional: for stricter null checks
-    "noImplicitAny": true, // Optional: to enforce explicit typing
-    "strictBindCallApply": true, // Optional: for stricter function binding
-    "forceConsistentCasingInFileNames": true, // Optional: for consistent file naming
-    "noFallthroughCasesInSwitch": true, // Optional: to avoid fall-through in switch statements
-  }
+    "skipLibCheck": false,
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "strictBindCallApply": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": [ "src" ],
+  "exclude": [ "node_modules", "dist" ]
 }

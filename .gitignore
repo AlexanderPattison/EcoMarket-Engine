@@ -1,6 +1,7 @@
 # Compiled output
-/build/
-/dist/
+frontend/build
+backend/build
+backend/dist
 
 # Node.js
 node_modules/

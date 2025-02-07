@@ -18,4 +18,4 @@ RUN npm run build
 EXPOSE 3001
 
 # Command to run your app
-CMD ["npm", "start"]
+CMD ["node", "--experimental-specifier-resolution=node", "--loader=ts-node/esm", "src/main.ts"]
