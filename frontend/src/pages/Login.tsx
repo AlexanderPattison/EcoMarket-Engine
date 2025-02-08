@@ -27,14 +27,19 @@ const Login: React.FC = () => {
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 if (error.response) {
-                    setError(
-                        error.response.data.message ||
-                        'Login failed. Please check your credentials.',
-                    );
+                    // Here you can check for specific status codes or messages
+                    switch (error.response.status) {
+                        case 401:
+                            setError("Invalid username or password. Please try again.");
+                            break;
+                        case 400:
+                            setError("Invalid input. Please check your username and password.");
+                            break;
+                        default:
+                            setError(error.response.data.message || 'Login failed. Please try again.');
+                    }
                 } else {
-                    setError(
-                        'An error occurred while trying to login. Please try again later.',
-                    );
+                    setError('An error occurred while trying to login. Please try again later.');
                 }
             } else {
                 setError('An unexpected error occurred.');
@@ -49,25 +54,21 @@ const Login: React.FC = () => {
             <input
                 type="text"
                 placeholder="Username"
-                className="input-field"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
             />
             <input
                 type="password"
                 placeholder="Password"
-                className="input-field"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
             />
-            <button onClick={handleLogin} className="login-button">
+            <button onClick={handleLogin}>
                 Login
             </button>
             <p>
                 Don't have an account?{' '}
-                <Link to="/signup" className="link">
-                    Sign Up
-                </Link>
+                <Link to="/signup">Sign Up</Link>
             </p>
         </div>
     );

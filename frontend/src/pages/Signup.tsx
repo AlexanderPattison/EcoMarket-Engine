@@ -1,4 +1,3 @@
-// src/pages/Signup.tsx
 import React, { useState, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -7,7 +6,6 @@ import axios from 'axios';
 import { User } from '../models/user';
 import './Signup.css';
 
-// Define the structure of the signup response
 interface SignupResponse {
     user: User;
     token: string;
@@ -20,7 +18,6 @@ const Signup: React.FC = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    // Use useCallback to memoize the handleSignup function
     const handleSignup = useCallback(async () => {
         try {
             const response = await axios.post<SignupResponse>('/api/signup', { username, password });
@@ -30,7 +27,17 @@ const Signup: React.FC = () => {
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 if (error.response) {
-                    setError(error.response.data.message || 'Signup failed. Please try again.');
+                    // Here you can check for specific status codes or messages from the backend
+                    switch (error.response.status) {
+                        case 409: // Assuming conflict for username already exists
+                            setError("Username already exists. Please choose another one.");
+                            break;
+                        case 400:
+                            setError("Invalid input. Please check your credentials.");
+                            break;
+                        default:
+                            setError(error.response.data.message || 'Signup failed. Please try again.');
+                    }
                 } else {
                     setError('An error occurred while trying to sign up. Please try again later.');
                 }
@@ -47,25 +54,21 @@ const Signup: React.FC = () => {
             <input
                 type="text"
                 placeholder="Username"
-                className="input-field"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
             />
             <input
                 type="password"
                 placeholder="Password"
-                className="input-field"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
             />
-            <button onClick={handleSignup} className="signup-button">
+            <button onClick={handleSignup}>
                 Sign Up
             </button>
             <p>
                 Already have an account?{' '}
-                <Link to="/login" className="link">
-                    Login
-                </Link>
+                <Link to="/login">Login</Link>
             </p>
         </div>
     );
