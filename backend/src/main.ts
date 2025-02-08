@@ -13,6 +13,11 @@ if (result.error) {
 async function bootstrap() {
     const app = await NestFactory.create<NestExpressApplication>(AppModule); // Specify the type
 
+    app.enableCors({
+        origin: 'http://localhost:3000', // This is for development. In production, you might want to restrict this to your actual domain
+        credentials: true,
+    });
+
     app.useGlobalPipes(new ValidationPipe({
         whitelist: true,
         forbidNonWhitelisted: true,
