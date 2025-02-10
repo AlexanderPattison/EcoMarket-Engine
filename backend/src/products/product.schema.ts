@@ -20,11 +20,6 @@ export class Product extends Document {
     price: number;
 
     @Prop({ required: true })
-    @IsNumber()
-    @Min(0)
-    quantity: number;
-
-    @Prop({ required: true })
     @IsUrl()
     imageUrl: string;
 
@@ -32,6 +27,7 @@ export class Product extends Document {
     @IsNumber()
     @Min(0)
     stock: number;
+
 }
 
 export const ProductSchema = SchemaFactory.createForClass(Product);

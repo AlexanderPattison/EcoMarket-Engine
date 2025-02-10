@@ -6,6 +6,7 @@ import { store, persistor } from './store';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
+import Products from './pages/Products';
 import Wishlist from './pages/Wishlist';
 import Cart from './pages/Cart';
 import Profile from './pages/Profile';
@@ -37,6 +38,7 @@ const AppContent: React.FC = () => {
                         <Navbar />
                         <Routes>
                             <Route path="/" element={<Home />} />
+                            <Route path="/products" element={<Products />} />
                             <Route path="/wishlist" element={<Wishlist />} />
                             <Route path="/cart" element={<Cart />} />
                             <Route path="/profile" element={<Profile />} />

@@ -1,3 +1,4 @@
+// frontend/src/components/Navbar.tsx
 import React, { useState } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -26,14 +27,11 @@ const Navbar: React.FC = () => {
                     EcoMarket
                 </Link>
 
-                <div className="search-container">
-                    <input type="text" placeholder="Search..." className="search-input" />
-                    <button type="submit" className="search-button">
-                        Search
-                    </button>
-                </div>
-
                 <div className="nav-right-section">
+                    <NavLink to="/products" className="nav-button">
+                        Products
+                    </NavLink>
+
                     <div className="wishlist-dropdown">
                         <div onClick={toggleWishlist} className="nav-button">
                             <i className="fas fa-heart"></i> Wishlist
