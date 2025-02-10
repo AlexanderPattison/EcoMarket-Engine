@@ -24,12 +24,13 @@ const Products: React.FC = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalProducts, setTotalProducts] = useState(0);
     const [loading, setLoading] = useState(true);
+    const [searchTerm, setSearchTerm] = useState('');
     const itemsPerPage = 12; // or however many you want per page
 
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await axios.get(`/api/products?page=${currentPage}&limit=${itemsPerPage}`);
+                const response = await axios.get(`/api/products?page=${currentPage}&limit=${itemsPerPage}${searchTerm ? `&search=${searchTerm}` : ''}`);
                 setProducts(response.data.products);
                 setTotalProducts(response.data.count); // Assuming your API returns the total count
                 setLoading(false);
@@ -40,7 +41,7 @@ const Products: React.FC = () => {
         };
 
         fetchProducts();
-    }, [currentPage]);
+    }, [currentPage, searchTerm]);
 
     const totalPages = Math.ceil(totalProducts / itemsPerPage);
 
@@ -48,6 +49,15 @@ const Products: React.FC = () => {
         if (newPage >= 1 && newPage <= totalPages) {
             setCurrentPage(newPage);
         }
+    };
+
+    const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchTerm(event.target.value);
+    };
+
+    const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        setCurrentPage(1); // Reset to first page when searching
     };
 
     if (loading) return <div>Loading...</div>;
@@ -60,6 +70,16 @@ const Products: React.FC = () => {
         <div className="products-page">
             <header className="products-header">
                 <h1>All Products</h1>
+                <form onSubmit={handleSearchSubmit} className="search-container">
+                    <input
+                        type="text"
+                        placeholder="Search products..."
+                        className="search-input"
+                        value={searchTerm}
+                        onChange={handleSearch}
+                    />
+                    <button type="submit" className="search-button">Search</button>
+                </form>
             </header>
 
             <div className="products-layout">
