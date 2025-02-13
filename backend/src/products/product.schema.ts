@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { IsString, MinLength, IsNumber, IsUrl, Min } from 'class-validator';
+import { IsString, MinLength, IsNumber, IsUrl, Min, IsOptional } from 'class-validator';
 
 @Schema()
 export class Product extends Document {
@@ -28,6 +28,10 @@ export class Product extends Document {
     @Min(0)
     stock: number;
 
+    @Prop()
+    @IsUrl()
+    @IsOptional()
+    affiliateLink?: string;
 }
 
 export const ProductSchema = SchemaFactory.createForClass(Product);

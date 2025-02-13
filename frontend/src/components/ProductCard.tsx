@@ -1,4 +1,3 @@
-// frontend/src/pages/components/ProductCard.tsx
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
@@ -11,9 +10,12 @@ interface Product {
     stock: number;
     imageUrl: string;
     category: string;
+    affiliateLink?: string;
 }
 
 const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
+    const isAmazonProduct = !!product.affiliateLink;
+
     return (
         <div className="product-card">
             <img src={product.imageUrl} alt={product.name} className="product-image" />
@@ -32,13 +34,25 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
                 )}
             </div>
             <div className="action-buttons">
-                <button
-                    className="add-to-cart"
-                    disabled={product.stock <= 0}
-                >
-                    {product.stock <= 0 ? "Out of Stock" : "Add to Cart"}
-                </button>
-                <FontAwesomeIcon icon="heart" className="wishlist-icon" />
+                {isAmazonProduct ? (
+                    <button
+                        className="buy-on-amazon"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            window.open(product.affiliateLink, '_blank', 'noopener,noreferrer');
+                        }}
+                    >
+                        Buy on Amazon
+                    </button>
+                ) : (
+                    <button
+                        className="add-to-cart"
+                        disabled={product.stock <= 0}
+                    >
+                        {product.stock <= 0 ? "Out of Stock" : "Add to Cart"}
+                    </button>
+                )}
+                <FontAwesomeIcon icon={faHeart} className="wishlist-icon" />
             </div>
         </div>
     );

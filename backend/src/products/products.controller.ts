@@ -1,6 +1,6 @@
-// backend/src/products/products.controller.ts
-import { Controller, Get, Query } from '@nestjs/common';
-import { ProductsService } from '../products/products.service';
+import { Controller, Get, Post, Put, Body, Param, Query } from '@nestjs/common';
+import { ProductsService } from './products.service';
+import { Product } from './product.schema';
 
 @Controller('api/products')
 export class ProductsController {
@@ -13,5 +13,15 @@ export class ProductsController {
     ) {
         const skip = (page - 1) * limit;
         return this.productsService.findAll(limit, skip);
+    }
+
+    @Post()
+    async createProduct(@Body() productData: Partial<Product>) {
+        return this.productsService.createProduct(productData);
+    }
+
+    @Put(':id')
+    async updateProduct(@Param('id') id: string, @Body() productData: Partial<Product>) {
+        return this.productsService.updateProduct(id, productData);
     }
 }

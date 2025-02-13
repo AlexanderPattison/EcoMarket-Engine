@@ -1,8 +1,7 @@
-// backend/src/products/products.service.ts
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Product, ProductDocument } from '../products/product.schema';
+import { Product, ProductDocument } from './product.schema';
 
 @Injectable()
 export class ProductsService {
@@ -14,5 +13,14 @@ export class ProductsService {
             this.productModel.countDocuments().exec()
         ]);
         return { products, count };
+    }
+
+    async createProduct(productData: Partial<Product>): Promise<ProductDocument> {
+        const newProduct = new this.productModel(productData);
+        return await newProduct.save();
+    }
+
+    async updateProduct(id: string, productData: Partial<Product>): Promise<ProductDocument | null> {
+        return await this.productModel.findByIdAndUpdate(id, productData, { new: true }).exec();
     }
 }
