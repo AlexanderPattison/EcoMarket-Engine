@@ -21,26 +21,46 @@ const Products: React.FC = () => {
     const [totalProducts, setTotalProducts] = useState(0);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
+    const [categories, setCategories] = useState<string[]>([]);
+    const [priceRanges, setPriceRanges] = useState<string[]>([]);
     const itemsPerPage = 12;
     const [searchParams, setSearchParams] = useSearchParams();
 
     useEffect(() => {
-        const fetchProducts = async () => {
+        const fetchCategories = async () => {
             try {
+                const response = await axios.get<string[]>('/api/products/categories');
+                setCategories(response.data);
+            } catch (error) {
+                console.error('Error fetching categories:', error);
+            }
+        };
+        fetchCategories();
+    }, []);
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+            setLoading(true);
+            try {
+                const sortParams = searchParams.get('sort')?.split('-') || ['name', 'asc'];
+                const [sortBy, sortOrder] = sortParams;
+
                 const response = await axios.get(`/api/products`, {
                     params: {
                         page: currentPage,
                         limit: itemsPerPage,
                         search: searchTerm,
-                        sortBy: searchParams.get('sortBy') || 'name',
-                        sortOrder: searchParams.get('sortOrder') || 'asc'
+                        sortBy,
+                        sortOrder,
+                        category: searchParams.get('category') || undefined,
+                        priceRanges: searchParams.get('priceRanges')?.split(',') || undefined
                     }
                 });
                 setProducts(response.data.products);
                 setTotalProducts(response.data.count);
-                setLoading(false);
             } catch (error) {
                 console.error('Error fetching products:', error);
+            } finally {
                 setLoading(false);
             }
         };
@@ -66,15 +86,35 @@ const Products: React.FC = () => {
     };
 
     const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        const sortBy = event.target.value.split('-')[0];
-        const sortOrder = event.target.value.split('-')[1] || 'asc';
-        setSearchParams({ sortBy, sortOrder });
+        const sortValue = event.target.value;
+        setSearchParams({ ...Object.fromEntries(searchParams.entries()), sort: sortValue });
         setCurrentPage(1);
     };
 
-    if (loading) return <div>Loading...</div>;
+    const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const newCategory = event.target.value === '' ? null : event.target.value;
+        setSearchParams({ ...Object.fromEntries(searchParams.entries()), category: newCategory || '' });
+        setCurrentPage(1);
+    };
 
-    // Calculate the range of items being shown
+    const handlePriceRangeChange = (event: React.ChangeEvent<HTMLInputElement>, range: string) => {
+        let newRanges = [...priceRanges];
+        if (event.target.checked) {
+            newRanges.push(range);
+        } else {
+            newRanges = newRanges.filter(r => r !== range);
+        }
+        setPriceRanges(newRanges);
+        const newParams = { ...Object.fromEntries(searchParams.entries()) };
+        if (newRanges.length === 0) {
+            delete newParams.priceRanges;
+        } else {
+            newParams.priceRanges = newRanges.join(',');
+        }
+        setSearchParams(newParams);
+        setCurrentPage(1);
+    };
+
     const startIndex = (currentPage - 1) * itemsPerPage + 1;
     const endIndex = Math.min(startIndex + itemsPerPage - 1, totalProducts);
 
@@ -98,7 +138,7 @@ const Products: React.FC = () => {
                 <aside className="sidebar">
                     <div className="filter-group">
                         <h3>Sort by</h3>
-                        <select className="sort-select" onChange={handleSortChange}>
+                        <select className="sort-select" onChange={handleSortChange} value={searchParams.get('sort') || 'name-asc'}>
                             <option value="price-asc">Price: Low to High</option>
                             <option value="price-desc">Price: High to Low</option>
                             <option value="name-asc">Name: A to Z</option>
@@ -110,11 +150,11 @@ const Products: React.FC = () => {
 
                     <div className="filter-group">
                         <h3>Categories</h3>
-                        <select className="category-select">
+                        <select className="category-select" onChange={handleCategoryChange} value={searchParams.get('category') || ''}>
                             <option value="">All Categories</option>
-                            <option value="electronics">Electronics</option>
-                            <option value="clothing">Clothing</option>
-                            <option value="home">Home & Garden</option>
+                            {categories.map((category) => (
+                                <option key={category} value={category}>{category}</option>
+                            ))}
                         </select>
                     </div>
 
@@ -122,22 +162,38 @@ const Products: React.FC = () => {
                         <h3>Price</h3>
                         <div className="price-ranges">
                             <label>
-                                <input type="checkbox" /> Under $20
+                                <input
+                                    type="checkbox"
+                                    onChange={(e) => handlePriceRangeChange(e, 'under20')}
+                                    checked={priceRanges.includes('under20')}
+                                /> Under $20
                             </label>
                             <label>
-                                <input type="checkbox" /> $20 - $50
+                                <input
+                                    type="checkbox"
+                                    onChange={(e) => handlePriceRangeChange(e, '20to50')}
+                                    checked={priceRanges.includes('20to50')}
+                                /> $20 - $50
                             </label>
                             <label>
-                                <input type="checkbox" /> $50+
+                                <input
+                                    type="checkbox"
+                                    onChange={(e) => handlePriceRangeChange(e, 'above50')}
+                                    checked={priceRanges.includes('above50')}
+                                /> $50+
                             </label>
                         </div>
                     </div>
                 </aside>
 
                 <main className="product-grid">
-                    {products.map((product) => (
-                        <ProductCard key={product._id} product={product} />
-                    ))}
+                    {loading ?
+                        <div>Loading...</div>
+                        :
+                        products.map((product) => (
+                            <ProductCard key={product._id} product={product} />
+                        ))
+                    }
                 </main>
             </div>
 

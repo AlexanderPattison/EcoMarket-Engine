@@ -7,16 +7,31 @@ import { Product, ProductDocument } from './product.schema';
 export class ProductsService {
     constructor(@InjectModel(Product.name) private productModel: Model<ProductDocument>) { }
 
-    async findAll(limit: number, skip: number, sortBy: string = 'name', sortOrder: 'asc' | 'desc' = 'asc'): Promise<{ products: ProductDocument[], count: number }> {
+    async findAll(limit: number, skip: number, sortBy: string = 'name', sortOrder: 'asc' | 'desc' = 'asc', category?: string, priceRanges?: string[]): Promise<{ products: ProductDocument[], count: number }> {
         const validSortFields = ['name', 'price', 'createdAt'];
         let sortField = validSortFields.includes(sortBy) ? sortBy : 'name';
 
         const sort: { [key: string]: number } = {};
         sort[sortField] = sortOrder === 'asc' ? 1 : -1;
 
+        let query = this.productModel.find();
+        if (category) {
+            query = query.where('category').equals(category);
+        }
+
+        if (priceRanges && priceRanges.length > 0) {
+            const conditions = priceRanges.map(range => {
+                if (range === 'under20') return { price: { $lt: 20 } };
+                if (range === '20to50') return { price: { $gte: 20, $lt: 50 } };
+                if (range === 'above50') return { price: { $gte: 50 } };
+                return {};
+            });
+            query = query.or(conditions);
+        }
+
         const [products, count] = await Promise.all([
-            this.productModel.find().sort(sort as any).limit(limit).skip(skip).exec(),
-            this.productModel.countDocuments().exec()
+            query.sort(sort as any).limit(limit).skip(skip).exec(),
+            this.productModel.countDocuments(query.getFilter()).exec()
         ]);
         return { products, count };
     }
@@ -28,5 +43,10 @@ export class ProductsService {
 
     async updateProduct(id: string, productData: Partial<Product>): Promise<ProductDocument | null> {
         return await this.productModel.findByIdAndUpdate(id, productData, { new: true }).exec();
+    }
+
+    async getCategories(): Promise<string[]> {
+        const categories = await this.productModel.distinct('category');
+        return categories.map((category) => String(category));
     }
 }

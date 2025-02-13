@@ -11,10 +11,12 @@ export class ProductsController {
         @Query('page') page = 1,
         @Query('limit') limit = 5,
         @Query('sortBy') sortBy: string = 'name',
-        @Query('sortOrder') sortOrder: 'asc' | 'desc' = 'asc'
+        @Query('sortOrder') sortOrder: 'asc' | 'desc' = 'asc',
+        @Query('category') category?: string,
+        @Query('priceRanges') priceRanges?: string[]
     ) {
         const skip = (page - 1) * limit;
-        return this.productsService.findAll(limit, skip, sortBy, sortOrder);
+        return this.productsService.findAll(limit, skip, sortBy, sortOrder, category, priceRanges);
     }
 
     @Post()
@@ -25,5 +27,10 @@ export class ProductsController {
     @Put(':id')
     async updateProduct(@Param('id') id: string, @Body() productData: Partial<Product>) {
         return this.productsService.updateProduct(id, productData);
+    }
+
+    @Get('categories')
+    async getCategories() {
+        return this.productsService.getCategories();
     }
 }
