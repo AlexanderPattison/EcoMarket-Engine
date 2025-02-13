@@ -7,7 +7,7 @@ import { Product, ProductDocument } from './product.schema';
 export class ProductsService {
     constructor(@InjectModel(Product.name) private productModel: Model<ProductDocument>) { }
 
-    async findAll(limit: number, skip: number, sortBy: string = 'name', sortOrder: 'asc' | 'desc' = 'asc', category?: string, priceRanges?: string[]): Promise<{ products: ProductDocument[], count: number }> {
+    async findAll(limit: number, skip: number, sortBy: string = 'name', sortOrder: 'asc' | 'desc' = 'asc', category?: string, priceRanges?: string[], search?: string): Promise<{ products: ProductDocument[], count: number }> {
         const validSortFields = ['name', 'price', 'createdAt'];
         let sortField = validSortFields.includes(sortBy) ? sortBy : 'name';
 
@@ -27,6 +27,13 @@ export class ProductsService {
                 return {};
             });
             query = query.or(conditions);
+        }
+
+        if (search) {
+            const searchRegex = new RegExp(search, 'i');
+            query = query.or([
+                { name: { $regex: searchRegex } },
+            ]);
         }
 
         const [products, count] = await Promise.all([

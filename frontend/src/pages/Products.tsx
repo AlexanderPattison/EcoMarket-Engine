@@ -77,12 +77,10 @@ const Products: React.FC = () => {
     };
 
     const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchTerm(event.target.value);
-    };
-
-    const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        setCurrentPage(1);
+        const newSearchTerm = event.target.value;
+        setSearchTerm(newSearchTerm);
+        setSearchParams({ ...Object.fromEntries(searchParams.entries()), search: newSearchTerm });
+        setCurrentPage(1); // Reset to first page when search term changes
     };
 
     const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -122,7 +120,7 @@ const Products: React.FC = () => {
         <div className="products-page">
             <header className="products-header">
                 <h1>All Products</h1>
-                <form onSubmit={handleSearchSubmit} className="search-container">
+                <div className="search-container">
                     <input
                         type="text"
                         placeholder="Search products..."
@@ -130,8 +128,7 @@ const Products: React.FC = () => {
                         value={searchTerm}
                         onChange={handleSearch}
                     />
-                    <button type="submit" className="search-button">Search</button>
-                </form>
+                </div>
             </header>
 
             <div className="products-layout">

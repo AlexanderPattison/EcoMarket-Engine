@@ -26,19 +26,6 @@
     flex: 1;
 }
 
-.search-button {
-    padding: 5px 10px;
-    border: none;
-    background-color: #f8f9fa;
-    color: #333;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-    .search-button:hover {
-        background-color: #e9ecef;
-    }
-
 .products-layout {
     display: flex;
     flex-wrap: wrap;

@@ -13,10 +13,11 @@ export class ProductsController {
         @Query('sortBy') sortBy: string = 'name',
         @Query('sortOrder') sortOrder: 'asc' | 'desc' = 'asc',
         @Query('category') category?: string,
-        @Query('priceRanges') priceRanges?: string[]
+        @Query('priceRanges') priceRanges?: string[],
+        @Query('search') search?: string
     ) {
         const skip = (page - 1) * limit;
-        return this.productsService.findAll(limit, skip, sortBy, sortOrder, category, priceRanges);
+        return this.productsService.findAll(limit, skip, sortBy, sortOrder, category, priceRanges, search);
     }
 
     @Post()
