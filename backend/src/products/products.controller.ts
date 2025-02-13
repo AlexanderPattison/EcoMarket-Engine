@@ -9,10 +9,12 @@ export class ProductsController {
     @Get()
     async getProducts(
         @Query('page') page = 1,
-        @Query('limit') limit = 5
+        @Query('limit') limit = 5,
+        @Query('sortBy') sortBy: string = 'name',
+        @Query('sortOrder') sortOrder: 'asc' | 'desc' = 'asc'
     ) {
         const skip = (page - 1) * limit;
-        return this.productsService.findAll(limit, skip);
+        return this.productsService.findAll(limit, skip, sortBy, sortOrder);
     }
 
     @Post()

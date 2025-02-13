@@ -1,13 +1,8 @@
-﻿// frontend/src/pages/Products.tsx
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import './Products.css';
 import axios from 'axios';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { useSearchParams } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
-
-// Add the heart icon to the library once
-library.add(faHeart);
 
 interface Product {
     _id: string;
@@ -17,6 +12,7 @@ interface Product {
     stock: number;
     imageUrl: string;
     category: string;
+    createdAt: Date;
 }
 
 const Products: React.FC = () => {
@@ -25,14 +21,23 @@ const Products: React.FC = () => {
     const [totalProducts, setTotalProducts] = useState(0);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
-    const itemsPerPage = 12; // or however many you want per page
+    const itemsPerPage = 12;
+    const [searchParams, setSearchParams] = useSearchParams();
 
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await axios.get(`/api/products?page=${currentPage}&limit=${itemsPerPage}${searchTerm ? `&search=${searchTerm}` : ''}`);
+                const response = await axios.get(`/api/products`, {
+                    params: {
+                        page: currentPage,
+                        limit: itemsPerPage,
+                        search: searchTerm,
+                        sortBy: searchParams.get('sortBy') || 'name',
+                        sortOrder: searchParams.get('sortOrder') || 'asc'
+                    }
+                });
                 setProducts(response.data.products);
-                setTotalProducts(response.data.count); // Assuming your API returns the total count
+                setTotalProducts(response.data.count);
                 setLoading(false);
             } catch (error) {
                 console.error('Error fetching products:', error);
@@ -41,7 +46,7 @@ const Products: React.FC = () => {
         };
 
         fetchProducts();
-    }, [currentPage, searchTerm]);
+    }, [currentPage, searchTerm, searchParams]);
 
     const totalPages = Math.ceil(totalProducts / itemsPerPage);
 
@@ -57,7 +62,14 @@ const Products: React.FC = () => {
 
     const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        setCurrentPage(1); // Reset to first page when searching
+        setCurrentPage(1);
+    };
+
+    const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const sortBy = event.target.value.split('-')[0];
+        const sortOrder = event.target.value.split('-')[1] || 'asc';
+        setSearchParams({ sortBy, sortOrder });
+        setCurrentPage(1);
     };
 
     if (loading) return <div>Loading...</div>;
@@ -86,11 +98,13 @@ const Products: React.FC = () => {
                 <aside className="sidebar">
                     <div className="filter-group">
                         <h3>Sort by</h3>
-                        <select className="sort-select">
-                            <option value="price-low">Price: Low to High</option>
-                            <option value="price-high">Price: High to Low</option>
-                            <option value="newest">Newest First</option>
-                            <option value="best-selling">Best Selling</option>
+                        <select className="sort-select" onChange={handleSortChange}>
+                            <option value="price-asc">Price: Low to High</option>
+                            <option value="price-desc">Price: High to Low</option>
+                            <option value="name-asc">Name: A to Z</option>
+                            <option value="name-desc">Name: Z to A</option>
+                            <option value="createdAt-desc">Newest First</option>
+                            <option value="createdAt-asc">Oldest First</option>
                         </select>
                     </div>
 

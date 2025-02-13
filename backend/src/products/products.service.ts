@@ -7,9 +7,15 @@ import { Product, ProductDocument } from './product.schema';
 export class ProductsService {
     constructor(@InjectModel(Product.name) private productModel: Model<ProductDocument>) { }
 
-    async findAll(limit: number, skip: number): Promise<{ products: ProductDocument[], count: number }> {
+    async findAll(limit: number, skip: number, sortBy: string = 'name', sortOrder: 'asc' | 'desc' = 'asc'): Promise<{ products: ProductDocument[], count: number }> {
+        const validSortFields = ['name', 'price', 'createdAt'];
+        let sortField = validSortFields.includes(sortBy) ? sortBy : 'name';
+
+        const sort: { [key: string]: number } = {};
+        sort[sortField] = sortOrder === 'asc' ? 1 : -1;
+
         const [products, count] = await Promise.all([
-            this.productModel.find().limit(limit).skip(skip).exec(),
+            this.productModel.find().sort(sort as any).limit(limit).skip(skip).exec(),
             this.productModel.countDocuments().exec()
         ]);
         return { products, count };

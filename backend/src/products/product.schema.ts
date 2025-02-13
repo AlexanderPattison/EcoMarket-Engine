@@ -28,10 +28,13 @@ export class Product extends Document {
     @Min(0)
     stock: number;
 
-    @Prop()
+    @Prop({ required: true })
     @IsUrl()
     @IsOptional()
     affiliateLink?: string;
+
+    @Prop({ default: Date.now })
+    createdAt: Date;
 }
 
 export const ProductSchema = SchemaFactory.createForClass(Product);
