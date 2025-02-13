@@ -74,6 +74,22 @@ h2 {
             text-decoration: underline;
         }
 
+/* New styles for the affiliate link */
+.affiliate-link {
+    color: #007bff;
+    text-decoration: none;
+}
+
+    .affiliate-link:hover {
+        text-decoration: underline;
+    }
+
+/* Adjusting for the new column */
+.product-table th:nth-child(7),
+.product-table td:nth-child(7) {
+    width: 150px; /* Example width, adjust as needed */
+}
+
 .pagination {
     display: flex;
     justify-content: center;
@@ -117,3 +133,13 @@ h2 {
             background-color: #0056b3;
             border-color: #0056b3;
         }
+
+.error-message {
+    color: red;
+    margin-bottom: 10px;
+}
+
+.success-message {
+    color: green;
+    margin-bottom: 10px;
+}
