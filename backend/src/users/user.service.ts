@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User } from '../users/user.schema';
@@ -11,12 +11,18 @@ export class UserService {
         return await this.userModel.find().select('_id username role');
     }
 
-    async updateRole(userId: string, role: string) {
-        const user = await this.userModel.findByIdAndUpdate(userId, { role }, { new: true });
-        if (!user) {
+    async updateRole(userId: string, role: string, adminId: string) {
+        const adminUser = await this.userModel.findById(adminId).select('role');
+        if (!adminUser || adminUser.role !== 'admin') {
+            throw new UnauthorizedException('Admin privileges required');
+        }
+
+        const updatedUser = await this.userModel.findByIdAndUpdate(userId, { role }, { new: true, runValidators: true });
+        if (!updatedUser) {
             throw new Error('User not found');
         }
-        return user;
+
+        return updatedUser;
     }
 
     async findById(userId: string) {

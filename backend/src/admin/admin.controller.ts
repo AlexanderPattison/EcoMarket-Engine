@@ -25,13 +25,10 @@ export class AdminController {
     @Put('users/:userId/role')
     @Roles(UserRole.Admin)
     async updateUserRole(@Param('userId') userId: string, @Body('role') role: string, @Request() req: ExpressRequest) {
-        const user = req.user as { userId: string }; // Type assertion
-        if (!user || !user.userId) {
-            throw new UnauthorizedException('User not authenticated');
-        }
-        const isAdmin = await this.authService.isAdmin(user.userId);
-        if (!isAdmin) {
+        const user = req.user as { userId: string, role: UserRole }; // Type assertion with role check
+        if (!user || user.role !== UserRole.Admin) {
             throw new UnauthorizedException('Only admins can change user roles');
         }
+        return this.userService.updateRole(userId, role, user.userId);
     }
 }
