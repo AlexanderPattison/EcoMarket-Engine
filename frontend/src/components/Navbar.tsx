@@ -69,8 +69,8 @@ const Navbar: React.FC = () => {
                     )}
 
                     {user && (user.role === 'contentCreator' || user.role === 'admin') && (
-                        <NavLink to="/content-dashboard" className="nav-button">
-                            Content Creator Dashboard
+                        <NavLink to="/creator-panel" className="nav-button">
+                            Creator Panel
                         </NavLink>
                     )}
                 </div>

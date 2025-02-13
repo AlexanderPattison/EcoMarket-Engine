@@ -14,7 +14,9 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import AdminDashboard from './pages/AdminDashboard';
 import AuthChecker from './AuthChecker';
-import ContentCreatorDashboard from './pages/ContentCreatorDashboard';
+import CreatorPanel from './pages/creatorpanel/CreatorPanel';
+import CreatorDashboard from './pages/creatorpanel/CreatorDashboard';
+import ProductListing from './pages/creatorpanel/ProductListing';
 import './App.css';
 
 const queryClient = new QueryClient();
@@ -53,7 +55,10 @@ const AppContent: React.FC = () => {
                                     </AdminRoute>
                                 }
                             />
-                            <Route path="/content-dashboard" element={<ContentCreatorDashboard />} />
+                            <Route path="/creator-panel" element={<CreatorPanel />}>
+                                <Route path="creatorDashboard" element={<CreatorDashboard />} />
+                                <Route path="productListing" element={<ProductListing />} />
+                            </Route>
                         </Routes>
                     </Router>
                 </QueryClientProvider>

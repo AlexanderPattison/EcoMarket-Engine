@@ -21,11 +21,6 @@
     font-weight: bold;
 }
 
-.search-container {
-    display: flex;
-    align-items: center;
-}
-
 .search-input {
     padding: 5px;
     border: none;
