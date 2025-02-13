@@ -14,6 +14,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import AdminDashboard from './pages/AdminDashboard';
 import AuthChecker from './AuthChecker';
+import ContentCreatorDashboard from './pages/ContentCreatorDashboard';
 import './App.css';
 
 const queryClient = new QueryClient();
@@ -52,6 +53,7 @@ const AppContent: React.FC = () => {
                                     </AdminRoute>
                                 }
                             />
+                            <Route path="/content-dashboard" element={<ContentCreatorDashboard />} />
                         </Routes>
                     </Router>
                 </QueryClientProvider>
