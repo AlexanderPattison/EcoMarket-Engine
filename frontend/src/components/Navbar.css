@@ -76,7 +76,7 @@
         outline: none; /* Ensure no outline on hover */
     }
 
-.admin-dashboard-button {
+.admin-panel-button {
     margin-left: 15px; /* Add some space from the profile/login link */
 }
 

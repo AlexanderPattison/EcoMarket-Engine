@@ -12,7 +12,7 @@ import Cart from './pages/Cart';
 import Profile from './pages/Profile';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-import AdminDashboard from './pages/AdminDashboard';
+import AdminPanel from './pages/adminpanel/AdminPanel';
 import AuthChecker from './AuthChecker';
 import CreatorPanel from './pages/creatorpanel/CreatorPanel';
 import CreatorDashboard from './pages/creatorpanel/CreatorDashboard';
@@ -48,10 +48,10 @@ const AppContent: React.FC = () => {
                             <Route path="/login" element={<Login />} />
                             <Route path="/signup" element={<Signup />} />
                             <Route
-                                path="/admin/dashboard"
+                                path="/admin/panel"
                                 element={
                                     <AdminRoute>
-                                        <AdminDashboard />
+                                        <AdminPanel />
                                     </AdminRoute>
                                 }
                             />

@@ -1,11 +1,11 @@
 import React from 'react';
-import { useAppDispatch, useAppSelector } from '../store';
-import { fetchUsers, updateUserRole } from '../slices/userSlice';
-import { User, UserRole } from '../models/user';
-import { RootState } from '../store';
-import './AdminDashboard.css';
+import { useAppDispatch, useAppSelector } from '../../store';
+import { fetchUsers, updateUserRole } from '../../slices/userSlice';
+import { User, UserRole } from '../../models/user';
+import { RootState } from '../../store';
+import './AdminPanel.css';
 
-const AdminDashboard: React.FC = () => {
+const AdminPanel: React.FC = () => {
     const dispatch = useAppDispatch();
     const { isAuthenticated } = useAppSelector((state: RootState) => state.auth);
     const { users, loading, error } = useAppSelector((state: RootState) => state.users);
@@ -22,11 +22,11 @@ const AdminDashboard: React.FC = () => {
 
     if (loading) return <p>Loading users...</p>;
     if (error) return <p style={{ color: 'red' }}>{error}</p>;
-    if (!isAuthenticated) return <p>Please log in to access the admin dashboard.</p>;
+    if (!isAuthenticated) return <p>Please log in to access the admin panel.</p>;
 
     return (
-        <div className="admin-dashboard">
-            <h1>Admin Dashboard</h1>
+        <div className="admin-panel">
+            <h1>Admin Panel</h1>
             <ul>
                 {users.map((user: User) => (
                     <li key={user._id}>
@@ -46,4 +46,4 @@ const AdminDashboard: React.FC = () => {
     );
 };
 
-export default AdminDashboard;
+export default AdminPanel;

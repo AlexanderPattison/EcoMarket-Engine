@@ -63,8 +63,8 @@ const Navbar: React.FC = () => {
                     </NavLink>
 
                     {user && user.role === 'admin' && (
-                        <NavLink to="/admin/dashboard" className="nav-button admin-dashboard-button">
-                            Admin Dashboard
+                        <NavLink to="/admin/panel" className="nav-button admin-panel-button">
+                            Admin Panel
                         </NavLink>
                     )}
 
